@@ -1,5 +1,8 @@
 package countries;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Countries {
     private String name;
     private String language;
@@ -44,7 +47,7 @@ public class Countries {
     public void setSea(boolean sea) {
         this.sea = sea;
     }
-    public static void sort(Countries[] array) {
+    public static void sortName(Countries[] array) {
         Countries obj;
         for(int i = 0; i < array.length - 1; i++) {
             for(int j = i + 1; j < array.length; j++) {
@@ -56,9 +59,33 @@ public class Countries {
             }
         }
     }
+    public static void qSortPopulation(Countries[] array, int left, int right) {
+        if(left < right) {
+            int n = array.length/2;
+            Countries obj;
+            //int left = from;
+            //int right = to;
+            while(left <= right) {
+                while(array[left].getPopulation() < array[n].getPopulation()) {
+                    left++;
+                }
+                while(array[right].getPopulation() > array[n].getPopulation()) {
+                    right--;
+                }
+                if(left <= right) {
+                    obj = array[left];
+                    array[left] = array[right];
+                    array[right] = obj;
+                    left++;
+                    right--;
+                }
+            }
+            qSortPopulation(array, left, right - 1);
+            qSortPopulation(array, left, right);
+        }
+    }
     @Override
     public String toString() {
         return "Name: " + name + "; Language: " + language + "; Area: " + area + "; Population: " + population + "; Sea: " + sea + ".";
     }
 }
-
